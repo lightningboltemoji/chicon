@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C391E1FC2C8A8D5A00957001 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391E1FB2C8A8D5A00957001 /* main.swift */; };
+		C391E1FC2C8A8D5A00957001 /* Chicon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391E1FB2C8A8D5A00957001 /* Chicon.swift */; };
+		C391E2072C8AB41400957001 /* XattrsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391E2062C8AB41400957001 /* XattrsHelper.swift */; };
+		C391E2092C8AB7E900957001 /* IconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391E2082C8AB7E900957001 /* IconManager.swift */; };
+		C391E2102C8ABBF800957001 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = C391E20F2C8ABBF800957001 /* ArgumentParser */; };
+		C391E2122C8ABCD700957001 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391E2112C8ABCD700957001 /* Set.swift */; };
+		C391E2142C8ABE9600957001 /* Remove.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391E2132C8ABE9600957001 /* Remove.swift */; };
+		C391E2162C8AC19400957001 /* Bulk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391E2152C8AC19400957001 /* Bulk.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,8 +30,12 @@
 
 /* Begin PBXFileReference section */
 		C391E1F82C8A8D5A00957001 /* chicon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = chicon; sourceTree = BUILT_PRODUCTS_DIR; };
-		C391E1FB2C8A8D5A00957001 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		C391E2052C8AAC1400957001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C391E1FB2C8A8D5A00957001 /* Chicon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chicon.swift; sourceTree = "<group>"; };
+		C391E2062C8AB41400957001 /* XattrsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XattrsHelper.swift; sourceTree = "<group>"; };
+		C391E2082C8AB7E900957001 /* IconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconManager.swift; sourceTree = "<group>"; };
+		C391E2112C8ABCD700957001 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
+		C391E2132C8ABE9600957001 /* Remove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Remove.swift; sourceTree = "<group>"; };
+		C391E2152C8AC19400957001 /* Bulk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bulk.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C391E2102C8ABBF800957001 /* ArgumentParser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,8 +69,12 @@
 		C391E1FA2C8A8D5A00957001 /* chicon */ = {
 			isa = PBXGroup;
 			children = (
-				C391E1FB2C8A8D5A00957001 /* main.swift */,
-				C391E2052C8AAC1400957001 /* README.md */,
+				C391E1FB2C8A8D5A00957001 /* Chicon.swift */,
+				C391E2062C8AB41400957001 /* XattrsHelper.swift */,
+				C391E2082C8AB7E900957001 /* IconManager.swift */,
+				C391E2112C8ABCD700957001 /* Set.swift */,
+				C391E2132C8ABE9600957001 /* Remove.swift */,
+				C391E2152C8AC19400957001 /* Bulk.swift */,
 			);
 			path = chicon;
 			sourceTree = "<group>";
@@ -80,6 +95,9 @@
 			dependencies = (
 			);
 			name = chicon;
+			packageProductDependencies = (
+				C391E20F2C8ABBF800957001 /* ArgumentParser */,
+			);
 			productName = chicon;
 			productReference = C391E1F82C8A8D5A00957001 /* chicon */;
 			productType = "com.apple.product-type.tool";
@@ -109,6 +127,9 @@
 				Base,
 			);
 			mainGroup = C391E1EF2C8A8D5A00957001;
+			packageReferences = (
+				C391E20E2C8ABBF800957001 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+			);
 			productRefGroup = C391E1F92C8A8D5A00957001 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -123,7 +144,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C391E1FC2C8A8D5A00957001 /* main.swift in Sources */,
+				C391E2142C8ABE9600957001 /* Remove.swift in Sources */,
+				C391E2122C8ABCD700957001 /* Set.swift in Sources */,
+				C391E1FC2C8A8D5A00957001 /* Chicon.swift in Sources */,
+				C391E2162C8AC19400957001 /* Bulk.swift in Sources */,
+				C391E2072C8AB41400957001 /* XattrsHelper.swift in Sources */,
+				C391E2092C8AB7E900957001 /* IconManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +319,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C391E20E2C8ABBF800957001 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C391E20F2C8ABBF800957001 /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C391E20E2C8ABBF800957001 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C391E1F02C8A8D5A00957001 /* Project object */;
 }
