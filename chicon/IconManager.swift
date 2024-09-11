@@ -8,15 +8,19 @@
 import AppKit
 
 class IconManager {
-    static func set(icon: String, target: String) -> Bool {
-        let img = NSImage.init(contentsOfFile: icon);
-        return NSWorkspace.shared.setIcon(img, forFile: target, options: NSWorkspace.IconCreationOptions(rawValue: 2));
+    private static let workspaceLock = NSLock()
+    
+    static func set(target: String, icon: String) -> Bool {
+        let img = NSImage.init(contentsOfFile: icon)
+        workspaceLock.lock()
+        defer { workspaceLock.unlock() }
+        return NSWorkspace.shared.setIcon(img, forFile: target, options: NSWorkspace.IconCreationOptions(rawValue: 2))
     }
     
     static func clear(target: String) throws {
         let xat = XattrsHelper(path: target)
-        try xat.clearCustomIconFlag();
-        xat.clearResourceFork();
+        try xat.clearCustomIconFlag()
+        xat.clearResourceFork()
         
         var isDirectory = ObjCBool(true)
         if FileManager.default.fileExists(atPath: target, isDirectory: &isDirectory) && isDirectory.boolValue {

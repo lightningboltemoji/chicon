@@ -9,11 +9,11 @@ import Foundation
 import ArgumentParser
 
 struct ConfigFile: Decodable {
-    let apply: Dictionary<String, String>
+    var apply: Dictionary<String, String>
 }
 
 extension Chicon {
-    struct Bulk: ParsableCommand {
+    struct Bulk: AsyncParsableCommand {
         static let configuration = CommandConfiguration(
             commandName: "bulk",
             abstract: "Applies icons in bulk, based on configuration file in .config"
@@ -28,7 +28,7 @@ extension Chicon {
                 let homeDirectory = FileManager.default.homeDirectoryForCurrentUser.path
                 p = p.replacingOccurrences(of: "~", with: homeDirectory)
             } else if !p.hasPrefix("/") {
-                let config = self.resolve(path: self.config)
+                let config = resolve(path: config)
                 var configParent = URL(fileURLWithPath: config).deletingLastPathComponent()
                 configParent.append(path: p)
                 return configParent.path
@@ -36,25 +36,48 @@ extension Chicon {
             return p
         }
         
-        mutating func run() {
-            self.config = self.resolve(path: self.config)
-
+        private func parse(path: String) -> ConfigFile {
             var content: String
             do {
-                content = try String(contentsOfFile: self.config, encoding: .utf8)
+                content = try String(contentsOfFile: path, encoding: .utf8)
             } catch {
-                print("Failed to read config file @ \(self.config)")
+                print("Failed to read config file @ \(path)")
                 Foundation.exit(1)
             }
             let data = content.data(using: .utf8)!
-            let config: ConfigFile = try! JSONDecoder().decode(ConfigFile.self, from: data)
-            config.apply.forEach { key, value in
-                var status = "..."
-                if FileManager.default.fileExists(atPath: value) {
-                    let success = IconManager.set(icon: self.resolve(path: key), target: value)
-                    status = success ? "✅" : "❌"
+            return try! JSONDecoder().decode(ConfigFile.self, from: data)
+        }
+        
+        private static func doSet(target: String, icon: String) async -> String {
+            var status = "..."
+            if FileManager.default.fileExists(atPath: target) {
+                let success = IconManager.set(target: target, icon: icon)
+                status = success ? "✅" : "❌"
+            }
+            return status
+        }
+        
+        mutating func run() async {
+            var config = parse(path: resolve(path: config))
+            config.apply.forEach { k, v in config.apply[k] = resolve(path: v) }
+            
+            let apply = config.apply
+            let result = try! await withThrowingTaskGroup(of: (String, String).self) { group in
+                for (key, value) in apply {
+                    group.addTask {
+                        return (key, await Bulk.doSet(target: key, icon: value))
+                    }
                 }
-                print("\(key) \(status)")
+                
+                var d = [String: String]()
+                for try await (target, status) in group {
+                    d[target] = status
+                }
+                return d
+            }
+            
+            result.keys.sorted().forEach { k in
+                print("\(k) \(result[k]!)")
             }
         }
     }

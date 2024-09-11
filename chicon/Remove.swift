@@ -19,7 +19,7 @@ extension Chicon {
         
         mutating func run() {
             do {
-                try IconManager.clear(target: self.target)
+                try IconManager.clear(target: target)
             } catch {
                 print("Failed to clear custom icon")
             }

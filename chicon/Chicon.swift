@@ -9,7 +9,7 @@ import Foundation
 import ArgumentParser
 
 @main
-struct Chicon: ParsableCommand {
+struct Chicon: AsyncParsableCommand {
     static var configuration = CommandConfiguration(
         abstract: "set and remove custom icons",
         subcommands: [Bulk.self, Set.self, Remove.self]
