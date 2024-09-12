@@ -1,25 +1,60 @@
 # ch(ange)icon
 
-Set and remove custom icons on macOS files and folders
+<div align="center">
+  <p>Set and remove custom icons on macOS files and folders</p>
+  <img width="516" alt="Screenshot of dock with custom app icons" src="https://github.com/user-attachments/assets/fe49d0ba-f51a-4f8b-9063-41b5fb6e9e9a">
+  <br/> <br/>
+  <p><a href="https://macosicons.com">macosicons.com</a> is a great source for icons! (no affiliation)</p>
+  <p><sup>Warning ⚠️ I've never written anything in Swift, so expect this to suck</sup></p>
+</div>
 
-## Features
+## Subcommands
 
-1. Set, remove, and test for custom icons
-2. Apply many icons at once, driven by config files
+### Set (`set`)
+
+Applies a custom icon to a file or folder. This should work with many different image formats.
 
 ```
-% chicon
-OVERVIEW: set and remove custom icons
+chicon set /Applications/kitty.app ~/Desktop/kitty.png
+```
 
-USAGE: chicon <subcommand>
+### Remove (`rm`)
 
-OPTIONS:
-  -h, --help              Show help information.
+Removes a custom icon that's been previously applied.
 
-SUBCOMMANDS:
-  bulk                    Applies icons in bulk, based on configuration file in .config
-  set                     Applies a custom icon to a target
-  rm                      Removes a custom icon from a target
+```
+chicon rm /Applications/kitty.app
+```
+
+### Bulk (`bulk`)
+
+Performs many `set` operations in parallel based on the contents of a JSON configuration file. 
+
+By default, uses the configuration at `~/.config/chicon/chicon.json`. 
+
+If an image path is not absolute (i.e. doesn't start with `/`), it's resolved relative to the configuration file's directory. In general, it's recommended to put the images in the same directory as the configuration file.
+
+```
+chicon bulk
+```
+```
+chicon bulk /path/to/custom/config.json
+```
+
+Example configuration:
+```
+$ cat ~/.config/chicon/chicon.json 
+{
+  "/Applications/Amazon Chime.app": "Amazon Chime.icns",
+  "/Applications/Microsoft Outlook.icns": "Microsoft Outlook.icns",
+  "/Applications/Obsidian.app": "Obsidian.icns",
+  "/Applications/Outlook.app": "Outlook.icns",
+  "/Applications/Slack.app": "Slack.png",
+  "/Applications/Spotify.app": "Spotify.png",
+  "/Applications/Visual Studio Code.app": "Visual Studio Code.icns",
+  "/Applications/Zed.app": "Zed.icns",
+  "/Applications/kitty.app": "kitty.icns"
+}
 ```
 
 ## Building
@@ -28,19 +63,13 @@ SUBCOMMANDS:
 xcodebuild -scheme chicon -configuration Release -archivePath ./build/Release clean archive && \
 cp ./build/Release.xcarchive/Products/usr/local/bin/chicon ./build && \
 rm -rf ./build/Release.xcarchive
-
-# binary @ ./build/chicon
 ```
+
+This will generate a binary @ `./build/chicon`.
 
 ## Motivation
 
-I like using custom icons for apps in my dock. :~) When apps update, the icon reverts, requiring them to be reapplied often for certain apps. 
-
-I hadn't found the perfect tool for this job. [fileicon](https://github.com/mklement0/fileicon/tree/master) is awesome, but setting many icons at once takes a non-negligible amount of time and requires orchestration.
-
-<div align="center">
-  <img width="516" alt="Screenshot of dock with custom app icons" src="https://github.com/user-attachments/assets/fe49d0ba-f51a-4f8b-9063-41b5fb6e9e9a">
-</div>
+When apps update, the icon reverts, requiring custom icons to be reapplied often. I hadn't found the perfect tool for this job. [fileicon](https://github.com/mklement0/fileicon/tree/master) is awesome, but setting many icons at once takes a non-negligible amount of time and requires orchestration. I wanted a declaritive solution that made use of `.config` and applied many icons very quickly.
 
 ## Credits
 
