@@ -8,10 +8,6 @@
 import Foundation
 import ArgumentParser
 
-struct ConfigFile: Decodable {
-    var apply: Dictionary<String, String>
-}
-
 extension Chicon {
     struct Bulk: AsyncParsableCommand {
         static let configuration = CommandConfiguration(
@@ -36,7 +32,7 @@ extension Chicon {
             return p
         }
         
-        private func parse(path: String) -> ConfigFile {
+        private func parse(path: String) -> Dictionary<String, String> {
             var content: String
             do {
                 content = try String(contentsOfFile: path, encoding: .utf8)
@@ -45,7 +41,7 @@ extension Chicon {
                 Foundation.exit(1)
             }
             let data = content.data(using: .utf8)!
-            return try! JSONDecoder().decode(ConfigFile.self, from: data)
+            return try! JSONDecoder().decode(Dictionary<String, String>.self, from: data)
         }
         
         private static func doSet(target: String, icon: String) async -> String {
@@ -59,11 +55,10 @@ extension Chicon {
         
         mutating func run() async {
             var config = parse(path: resolve(path: config))
-            config.apply.forEach { k, v in config.apply[k] = resolve(path: v) }
+            config.forEach { k, v in config[k] = resolve(path: v) }
             
-            let apply = config.apply
             let result = try! await withThrowingTaskGroup(of: (String, String).self) { group in
-                for (key, value) in apply {
+                for (key, value) in config {
                     group.addTask {
                         return (key, await Bulk.doSet(target: key, icon: value))
                     }
