@@ -1,5 +1,5 @@
 //
-//  Bulk.swift
+//  Apply.swift
 //  chicon
 //
 //  Created by Tanner on 9/5/24.
@@ -9,7 +9,7 @@ import ArgumentParser
 import Foundation
 
 extension Chicon {
-    struct Bulk: AsyncParsableCommand {
+    struct Apply: AsyncParsableCommand {
         static let configuration = CommandConfiguration(
             commandName: "apply",
             abstract: "Applies icons in bulk, based on configuration file in .config"
@@ -60,7 +60,7 @@ extension Chicon {
             let result = try! await withThrowingTaskGroup(of: (String, String).self) { group in
                 for (key, value) in config {
                     group.addTask {
-                        return (key, await Bulk.doSet(target: key, icon: value))
+                        return (key, await Apply.doSet(target: key, icon: value))
                     }
                 }
 
