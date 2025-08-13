@@ -26,7 +26,7 @@ Removes a custom icon that's been previously applied.
 chicon rm /Applications/kitty.app
 ```
 
-### Bulk (`bulk`)
+### Apply (`apply`)
 
 Performs many `set` operations in parallel based on the contents of a JSON configuration file.
 
