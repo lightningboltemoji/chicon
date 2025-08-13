@@ -8,15 +8,15 @@
 import ArgumentParser
 
 extension Chicon {
-    struct Remove: ParsableCommand {    
+    struct Remove: ParsableCommand {
         static let configuration = CommandConfiguration(
             commandName: "rm",
             abstract: "Removes a custom icon from a target"
         )
-        
+
         @Argument(help: "Path to remove from")
         var target: String
-        
+
         mutating func run() {
             do {
                 try IconManager.clear(target: target)

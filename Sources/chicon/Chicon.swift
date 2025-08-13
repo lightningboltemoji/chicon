@@ -5,12 +5,12 @@
 //  Created by Tanner on 9/5/24.
 //
 
-import Foundation
 import ArgumentParser
+import Foundation
 
 @main
 struct Chicon: AsyncParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         abstract: "set and remove custom icons",
         subcommands: [Bulk.self, Set.self, Remove.self]
     )

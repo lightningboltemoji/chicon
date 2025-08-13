@@ -28,22 +28,22 @@ chicon rm /Applications/kitty.app
 
 ### Bulk (`bulk`)
 
-Performs many `set` operations in parallel based on the contents of a JSON configuration file. 
+Performs many `set` operations in parallel based on the contents of a JSON configuration file.
 
-By default, uses the configuration at `~/.config/chicon/chicon.json`. 
+By default, uses the configuration at `~/.config/chicon/chicon.json`.
 
 If an image path is not absolute (i.e. doesn't start with `/`), it's resolved relative to the configuration file's directory. In general, it's recommended to put the images in the same directory as the configuration file.
 
 ```
-chicon bulk
+chicon apply
 ```
 ```
-chicon bulk /path/to/custom/config.json
+chicon apply /path/to/custom/config.json
 ```
 
 Example configuration:
 ```
-$ cat ~/.config/chicon/chicon.json 
+$ cat ~/.config/chicon/chicon.json
 {
   "/Applications/Amazon Chime.app": "Amazon Chime.icns",
   "/Applications/Microsoft Outlook.app": "Microsoft Outlook.icns",
@@ -59,12 +59,10 @@ $ cat ~/.config/chicon/chicon.json
 ## Building
 
 ```bash
-xcodebuild -scheme chicon -configuration Release -archivePath ./build/Release clean archive && \
-cp ./build/Release.xcarchive/Products/usr/local/bin/chicon ./build && \
-rm -rf ./build/Release.xcarchive
+swift build --configuration release
 ```
 
-This will generate a binary @ `./build/chicon`.
+This will generate a binary @ `.build/release/chicon`.
 
 ## Motivation
 

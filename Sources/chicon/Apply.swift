@@ -5,19 +5,19 @@
 //  Created by Tanner on 9/5/24.
 //
 
-import Foundation
 import ArgumentParser
+import Foundation
 
 extension Chicon {
     struct Bulk: AsyncParsableCommand {
         static let configuration = CommandConfiguration(
-            commandName: "bulk",
+            commandName: "apply",
             abstract: "Applies icons in bulk, based on configuration file in .config"
         )
-        
+
         @Argument(help: "Location of the config file")
         var config: String = "~/.config/chicon/chicon.json"
-        
+
         private func resolve(path: String) -> String {
             var p = path
             if p.hasPrefix("~") {
@@ -31,8 +31,8 @@ extension Chicon {
             }
             return p
         }
-        
-        private func parse(path: String) -> Dictionary<String, String> {
+
+        private func parse(path: String) -> [String: String] {
             var content: String
             do {
                 content = try String(contentsOfFile: path, encoding: .utf8)
@@ -43,7 +43,7 @@ extension Chicon {
             let data = content.data(using: .utf8)!
             return try! JSONDecoder().decode(Dictionary<String, String>.self, from: data)
         }
-        
+
         private static func doSet(target: String, icon: String) async -> String {
             var status = "..."
             if FileManager.default.fileExists(atPath: target) {
@@ -52,25 +52,25 @@ extension Chicon {
             }
             return status
         }
-        
+
         mutating func run() async {
             var config = parse(path: resolve(path: config))
             config.forEach { k, v in config[k] = resolve(path: v) }
-            
+
             let result = try! await withThrowingTaskGroup(of: (String, String).self) { group in
                 for (key, value) in config {
                     group.addTask {
                         return (key, await Bulk.doSet(target: key, icon: value))
                     }
                 }
-                
+
                 var d = [String: String]()
                 for try await (target, status) in group {
                     d[target] = status
                 }
                 return d
             }
-            
+
             result.keys.sorted().forEach { k in
                 print("\(k) \(result[k]!)")
             }
