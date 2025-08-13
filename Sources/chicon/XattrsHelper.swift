@@ -7,7 +7,9 @@
 
 import Foundation
 
-extension String: Error {}
+enum RuntimeError: Error {
+    case msg(String)
+}
 
 class XattrsHelper {
 
@@ -25,12 +27,15 @@ class XattrsHelper {
 
     func list() throws -> [String] {
         let len = listxattr(self.path, nil, 0, 0)
-        guard len >= 0 else { throw "Unexpected error reading xattr length on: \(self.path)" }
+        guard len >= 0 else {
+            throw RuntimeError.msg("Unexpected error reading xattr length on: \(self.path)")
+        }
 
         var nameBuffer = [CChar](repeating: 0, count: len)
-        listxattr(self.path, &nameBuffer, len, 0)
+        let actualLen = listxattr(self.path, &nameBuffer, len, 0)
 
-        let names = String(cString: nameBuffer).components(separatedBy: "\0")
+        let nameData = nameBuffer.prefix(actualLen).map { UInt8(bitPattern: $0) }
+        let names = String(decoding: nameData, as: UTF8.self).components(separatedBy: "\0")
         return names.filter { !$0.isEmpty }
     }
 
