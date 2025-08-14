@@ -2,7 +2,7 @@
 
 <div align="center">
   <p>Set and remove custom icons on macOS files and folders</p>
-  <img width="516" alt="Screenshot of dock with custom app icons" src="https://github.com/user-attachments/assets/fe49d0ba-f51a-4f8b-9063-41b5fb6e9e9a">
+  <img width="516" alt="Screenshot of dock with custom app icons" src="https://github.com/user-attachments/assets/bd18cc8e-234d-4050-be87-6ecae5657874">
   <br/> <br/>
   <p><a href="https://macosicons.com">macosicons.com</a> is a great source for icons! (no affiliation)</p>
   <p><sup>Warning ⚠️ I've never written anything in Swift, so expect this to suck</sup></p>
@@ -46,13 +46,13 @@ Example configuration:
 $ cat ~/.config/chicon/chicon.json
 {
   "/Applications/Amazon Chime.app": "Amazon Chime.icns",
+  "/Applications/Ghostty.app": "Ghostty.icns",
   "/Applications/Microsoft Outlook.app": "Microsoft Outlook.icns",
   "/Applications/Obsidian.app": "Obsidian.icns",
   "/Applications/Slack.app": "Slack.png",
-  "/Applications/Spotify.app": "Spotify.png",
+  "/Applications/Spotify.app": "Spotify.icns",
   "/Applications/Visual Studio Code.app": "Visual Studio Code.icns",
-  "/Applications/Zed.app": "Zed.icns",
-  "/Applications/kitty.app": "kitty.icns"
+  "/Applications/Zed.app": "Zed.icns"
 }
 ```
 
